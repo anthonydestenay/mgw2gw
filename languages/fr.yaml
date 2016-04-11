@@ -1,0 +1,77 @@
+---
+# Admin.php
+Administration: Administration
+Username: Nom d'utilisateur
+Password: Mot de passe
+Password repeat: Mot de passe (vérification)
+Language: Langue
+Theme: Thème
+Guild: Guilde
+Charter: Charte
+Friendly: Familiale / Entre amis
+Activities: Activités
+Dynamic events: Évènements dynamiques
+World bosses: Boss mondiaux
+Dungeons: Donjons
+Fractals of the Mists: Fractales des Brumes
+Guild missions: Missions de guilde
+World versus World (WvW): Monde contre Monde (McM)
+Player versus Player (PvP): Joueur contre Joueur (JcJ)
+Player versus Environment (PvE): Joueur contre Environnement (JcE)
+Recruitment: Recrutement
+recruitment is: le recrutement est
+and the required minimum level is: et le niveau minimum requis est
+Open: Ouvert
+Closed: Fermé
+Engineer: Ingénieur
+Necromancer: Nécromant
+Thief: Voleur
+Elementalist: Élémentaliste
+Warrior: Guerrier
+Ranger: Rôdeur
+Mesmer: Envoûteur
+Guardian: Gardien
+Links: Liens
+Key: Clé
+Save: Enregistrer
+The configuration's settings has been saved.: Les paramétres de configuration ont été enregistrés.
+Visit site: Visiter le site
+Logout: Déconnexion
+My guild website: Mon site de guilde
+Login credentials: Identifiants de connexion
+Site settings: Paramètres du site
+Made with %s by %s: Fait avec %s par %s
+Login: Connexion
+Leave "Password" empty for not change it.: Laissez "Mot de passe" vide pour ne pas le modifier.
+For each profession, select the recruitment status and the minimum level required.: Pour chaque profession, sélectionnez le statut du recrutement et le niveau minimum requis.
+Further information: Informations complémentaires
+U can use Markdown in this field.: Vous pouvez utiliser le format Mardown dans ce champ.
+Learn more: En savoir plus
+Need help?: Besoin d'aide ?
+Step %s: Étape %s
+Choose language: Choisissez une langue
+Next step: Étape suivante
+Name: Nom
+All associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation.: Les logos et dessins associés sont des marques commerciales et/ou déposées de NCSOFT Corporation.
+Go back! It's not my guild...: Retourner en arrière ! ce n'est pas mal guilde...
+This is my guild! Next step: C'est ma guilde ! Étape suivante
+You use them to access the administration of your site.: Vous les utiliserez pour accéder à l'administration de votre site.
+Setup is completed!: L'installation est terminée !
+Remember to delete the file "install.php", the folder "/install" and his files.: Pensez à supprimer le fichier "install.php", le dossier "/install" et ses fichiers.
+You can now %s or %s.: Vous pouvez maintenant %s ou %s.
+visit your new site: visiter votre nouveau site
+configure in administration: le configurer via l'administration
+Tracking ID: ID de suivi
+Activity: Activité
+Members: Membres
+Find us on...: Retrouvez nous sur...
+"%s has changed the Message of the Day:": "%s a changé le message du jour :"
+%s has invited %s to the guild.: %s a invité %s à rejoindre la guilde.
+%s has joined the guild.: %s a rejoint la guilde.
+%s has kicked %s from the guild.: %s a exclu %s de la guilde.
+%s has changed the role of %s to %s: %s a décidé que %s serait désormais %s.
+%s deposited %s (x%s).: %s a entreposé %s (x%s).
+%s queued %s.: %s a planifié %s.
+%s has promoted %s.: %s a été promu chef de la guilde.
+Voice chat: Chat vocal
+Show recruitment section: Afficher la section recrutement

@@ -1,0 +1,9 @@
+{
+    "require": {
+        "gw2treasures/gw2api": "^2.4",
+        "mustangostang/spyc": "^0.5.1",
+        "jamesmcfadden/php-gw2-api": "^1.0",
+        "cebe/markdown": "^1.1",
+        "twig/twig": "^1.24"
+    }
+}
