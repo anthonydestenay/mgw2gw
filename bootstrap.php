@@ -2,6 +2,10 @@
 
 require_once 'vendor/autoload.php';
 
+if(!file_exists('config')) {
+  mkdir('config');
+}
+
 if(!file_exists('config.yaml')) {
 
   $page = htmlentities($_SERVER['PHP_SELF']);

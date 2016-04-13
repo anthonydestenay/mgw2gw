@@ -74,7 +74,6 @@
       $yaml = file_put_contents('config.yaml', $yaml);
 
       deletecache('cache');
-      mkdir('cache');
 
       header('Location: ?update=ok');
 
