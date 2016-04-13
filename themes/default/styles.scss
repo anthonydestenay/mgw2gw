@@ -1077,6 +1077,48 @@ $L:     1170px;
   }
 }
 
+#feed {
+  margin: 2em auto 4em;
+  .item {
+    display: table;
+    width: 100%;
+    background: url($line-img) no-repeat center top;
+
+    &:last-child {
+      background: url($line-img) no-repeat center top, url($line-img) no-repeat center bottom;
+    }
+
+    .title, .date {
+      display: table-cell;
+      padding: .5em 1em;
+    }
+
+    .title {
+      width: 100%;
+      font-size: 1.1em;
+      padding: .5em;
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+
+    .category, .date {
+      white-space: nowrap;
+      color: #898989;
+    }
+
+    .category {
+      font-size: .9em;
+    }
+
+    .date {
+      text-align: right;
+    }
+
+  }
+}
+
 #footer {
   background: #898989;
   color: #fff;

@@ -207,6 +207,43 @@ if( isset($config['links']) && !empty($config['links']) ) {
   $links = null;
 }
 
+$feed_items = null;
+if( isset($config['feed']['url']) && !empty($config['feed']['url']) ) {
+  $feed_hash = sha1($config['feed']['url']);
+  if(!$cache->hasCache('feed_items_'.$feed_hash)) {
+    $feed_url = $config['feed']['url'];
+
+    $xml = @simplexml_load_file($feed_url);
+    $feed_items = array();
+
+    if($xml) {
+
+      if(isset($xml->channel->item) && !empty($xml->channel->item)) {
+        foreach($xml->channel->item as $item) {
+          $feed_items[] = array(
+            'title' => (string) trim($item->title),
+            'link' => (string) $item->link,
+            'category' => (string) $item->category,
+            'date' => (string) strtotime($item->pubDate)
+          );
+        }
+      } elseif(isset($xml->entry) && !empty($xml->entry)) {
+        foreach($xml->entry as $item) {
+          $feed_items[] = array(
+            'title' => (string) trim($item->title),
+            'link' => (string) $item->link->attributes()['href'],
+            'category' => (string) $item->category->attributes()['term'],
+            'date' => (string) strtotime($item->updated)
+          );
+        }
+      }
+      $cache->save('feed_items-'.$feed_hash, $feed_items);
+    }
+  } else {
+    $feed_items = $cache->retrieve('feed_items_'.$feed_hash);
+  }
+}
+
 $data = array(
   'theme' => ( isset($config['theme']) && !empty($config['theme']) ) ? '/themes/'.$config['theme'] : '/themes/default',
   'is_admin' => $is_admin,
@@ -229,12 +266,17 @@ $data = array(
     'professions' => $recruitment_professions
   ),
   'links' => $links,
+  'feed' => array(
+    'items' => $feed_items,
+    'limit' => ( isset($config['feed']['limit']) && !empty($config['feed']['limit']) ) ? $config['feed']['limit'] : 10,
+  ),
   'title' => array(
     'activity' => __('Activity'),
     'members' => __('Members'),
     'charter' => __('Charter'),
     'recruitment' => __('Recruitment'),
-    'links' => __('Find us on...')
+    'links' => __('Find us on...'),
+    'newsfeed' => __('Newsfeed')
   ),
   'credits' => array(
     'made_by' => sprintf( __('Made with %s by %s'), '<i class="fa fa-heart"></i>', '<a href="http://you.an-d.me" target="_blank">Anthony Destenay</a>'),

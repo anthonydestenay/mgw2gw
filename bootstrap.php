@@ -71,6 +71,8 @@ $_links = array(
   'voice_chat' => __('Voice chat')
 );
 
+$_feed_limits = array(1, 5, 10, 15, 20, 25, 50, 100);
+
 function __($string) {
   global $config;
   $lang = (isset($config['language']) && !empty($config['language'])) ? $config['language'] : 'en';

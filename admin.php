@@ -306,6 +306,22 @@
       </fieldset>
 
       <fieldset>
+        <legend><?php _e('RSS feed'); ?></legend>
+        <div class="pure-control-group">
+          <label for="feed_url"><?php _e('Feed URL'); ?></label>
+          <input type="url" id="feed_url" class="pure-input-1-2" name="config[feed][url]" value="<?php if(isset($config['feed']['url'])) : echo $config['feed']['url']; endif; ?>" />
+        </div>
+        <div class="pure-control-group">
+          <label for="feed_limit"><?php _e('Limit to'); ?></label>
+          <select name="config[feed][limit]" id="feed_limit">
+          <?php foreach($_feed_limits as $fl): ?>
+            <option value="<?php echo $fl; ?>" <?php if(isset($config['feed']['limit']) && !empty($config['feed']['limit']) && $config['feed']['limit'] == $fl): ?>selected<?php endif; ?>><?php echo $fl; ?></option>
+          <?php endforeach; ?>
+          </select> &nbsp;<?php _e('the items\' number to display.'); ?>
+        </div>
+      </fieldset>
+
+      <fieldset>
         <legend><?php _e('Links'); ?></legend>
         <?php foreach($_links as $k => $v): ?>
         <div class="pure-control-group">
