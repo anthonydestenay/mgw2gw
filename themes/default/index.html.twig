@@ -78,7 +78,7 @@
       {% endif %}
 
       {% if guild.members %}
-        <div id="members" {% if not guild.charter and not recruitment.show and not links %}class="last"{% endif %}>
+        <div id="members" {% if not guild.charter and not recruitment.show and not links and not feed.items %}class="last"{% endif %}>
           <div class="container">
             <h2>{{ title.members }}</h2>
             {% for member in guild.members %}
@@ -116,6 +116,23 @@
             {% for k, recruitment in recruitment.professions %}
               <div class="recruitment recruitment-{{ k }} recruitment-{{ recruitment.status.id }}">
                 <div class="recruitment-profession">{{  recruitment.profession }}</div><div class="recruitment-status">{{ recruitment.status.name }}</div><div class="recruitment-level">{{ recruitment.level }}+</div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if feed.items %}
+        <div id="feed">
+          <div class="container">
+            <h2>{{ title.newsfeed }}</h2>
+          </div>
+          <div class="container">
+            {% for item in feed.items|slice(0, feed.limit) %}
+              <div class="item">
+                <div class="title"><a href="{{ item.link }}" target="_blank">{{ item.title }}</a> <span class="category">{{ item.category }}</span></div>
+
+                <div class="date">{{ item.date|date('d/m/Y H:i:s') }}</div>
               </div>
             {% endfor %}
           </div>
