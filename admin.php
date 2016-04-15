@@ -223,7 +223,7 @@
             <div class="pure-u-1-3">
               <label for="themes_<?php echo $th['id']; ?>" class="pure-radio">
                   <input type="radio" id="themes_<?php echo $th['id']; ?>" value="<?php echo $th['id']; ?>" name="config[theme]" required <?php if( isset($config['theme']) && !empty($config['theme']) && $config['theme'] == $th['id']): ?>checked<?php endif; ?> />
-                  <img src="http://placehold.it/1024x768?text=<?php echo $th['id']; ?>" class="pure-img" />
+                  <?php if($th['screenshot']): ?><img src="themes/<?php echo $th['id']; ?>/screenshot.jpg" class="pure-img" /><?php else: ?><img src="http://placehold.it/1024x768?text=<?php echo $th['id']; ?>" class="pure-img" /><?php endif; ?>
               </label>
             </div>
           <?php endforeach; ?>

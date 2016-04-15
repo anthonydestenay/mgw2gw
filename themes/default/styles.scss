@@ -777,6 +777,38 @@ $L:     1170px;
 			margin-bottom: 0;
 		}
 	}
+
+  &.upgrade .timeline-icon:after {
+    content: '\f073';
+  }
+
+  &.kick .timeline-icon:after {
+    content: '\f235';
+  }
+
+  &.stash .timeline-icon:after {
+    content: '\f07a';
+  }
+
+  &.rank_change .timeline-icon:after {
+    content: '\f091';
+  }
+
+  &.invited .timeline-icon:after {
+    content: '\f234';
+  }
+
+  &.joined .timeline-icon:after {
+    content: '\f00c';
+  }
+
+  &.motd .timeline-icon:after {
+    content: '\f0a1';
+  }
+
+  &.invite_declined .timeline-icon:after {
+    content: '\f05e';
+  }
 }
 
 .timeline-icon {
@@ -788,6 +820,17 @@ $L:     1170px;
 	border-radius: 50%;
 	box-shadow: 0 0 0 4px $red, inset 0 2px 0 rgba(#000, .08), 0 3px 0 4px rgba(#000, .05) ;
   background: #fff;
+
+  &:after {
+    font-family: FontAwesome;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    color: $red;
+    display: block;
+    font-size: 1.4em;
+  }
 
 	@include MQ(L) {
 		left: 50%;

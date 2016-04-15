@@ -61,87 +61,105 @@ if( isset($config['guild']['activities']) && !empty($config['guild']['activities
 }
 
 if( isset($guild_log) && !empty($guild_log) ) {
+  $i = 0;
   foreach($guild_log as $log):
 
-    $user = explode('.', $log->user);
-    $log->user = $user[0];
-
-    if(isset($log->invited_by) && !empty($log->invited_by)) {
-      $user = explode('.', $log->invited_by);
-      $log->invited_by = $user[0];
+    if($i == 15) {
+      continue;
     }
 
-    if(isset($log->kicked_by) && !empty($log->kicked_by)) {
-      $user = explode('.', $log->kicked_by);
-      $log->kicked_by = $user[0];
-    }
+    if( isset($log->user) && !empty($log->user) ) {
 
-    if(isset($log->changed_by) && !empty($log->kicked_by)) {
-      $user = explode('.', $log->changed_by);
-      $log->changed_by = $user[0];
-    }
+      $user = explode('.', $log->user);
+      $log->user = $user[0];
 
-    switch($log->type) {
-      case 'joined':
-        $content = sprintf( __('%s has joined the guild.', $log->user) );
-      break;
-      case 'invited':
-        $content = sprintf( __('%s has invited %s to the guild.'), $log->invited_by, $log->user );
-      break;
-      case 'kick':
-        $content = sprintf( __('%s has kicked %s from the guild.'), $log->kicked_by, $log->user );
-      break;
-      case 'rank_change':
-        if(isset($log->changed_by) && !empty($log->changed_by)) {
-          $content = sprintf( __('%s has changed the role of %s to %s'), $log->changed_by, $log->user, $log->new_rank );
-        } else {
-          $content = sprintf( __('%s has promoted %s.'), $log->user, $log->new_rank );
-        }
+      if(isset($log->invited_by) && !empty($log->invited_by)) {
+        $user = explode('.', $log->invited_by);
+        $log->invited_by = $user[0];
+      }
 
-      break;
-      case 'motd':
-        $content = sprintf( __('%s has changed the Message of the Day:'), $log->user );
-        $content .= "\n".$log->motd;
-      break;
-      case 'stash':
-        // operation = deposit | withdraw
-        if( $log->item_id ) {
+      if(isset($log->kicked_by) && !empty($log->kicked_by)) {
+        $user = explode('.', $log->kicked_by);
+        $log->kicked_by = $user[0];
+      }
+
+      if(isset($log->changed_by) && !empty($log->kicked_by)) {
+        $user = explode('.', $log->changed_by);
+        $log->changed_by = $user[0];
+      }
+
+      switch($log->type) {
+        case 'joined':
+          $content = sprintf( __('%s has joined the guild.'), $log->user);
+        break;
+        case 'invited':
+          $content = sprintf( __('%s has invited %s to the guild.'), $log->invited_by, $log->user );
+        break;
+        case 'invite_declined':
+          $content = sprintf( __('%s has declined the invite to join the guild.'), $log->user );
+        break;
+        case 'kick':
+          $content = sprintf( __('%s has kicked %s from the guild.'), $log->kicked_by, $log->user );
+        break;
+        case 'rank_change':
+          if(isset($log->changed_by) && !empty($log->changed_by)) {
+            $content = sprintf( __('%s has changed the role of %s to %s.'), $log->changed_by, $log->user, $log->new_rank );
+          } else {
+            $content = sprintf( __('%s has promoted %s.'), $log->user, $log->new_rank );
+          }
+
+        break;
+        case 'motd':
+          $content = sprintf( __('%s has changed the Message of the Day:'), $log->user );
+          $content .= "\n".$log->motd;
+        break;
+        case 'stash':
+          if( $log->item_id && isset($log->operation) ) {
+            if(!$cache->hasCache('item_'.$log->item_id)) {
+                $item = $api->items()->lang($config['language'])->get($log->item_id);
+                $cache->save('item_'.$log->item_id, $item);
+            } else {
+              $item = $cache->retrieve('item_'.$log->item_id);
+            }
+
+            if($log->operation == 'deposit') {
+              $content = sprintf( __('%s deposited %s (×%s).'), $log->user, $item->name, $log->count );
+            } else {
+              $content = sprintf( __('%s has withdrawn %s (×%s).'), $log->user, $item->name, $log->count );
+            }
+          }
+        break;
+        case 'treasury':
           if(!$cache->hasCache('item_'.$log->item_id)) {
               $item = $api->items()->lang($config['language'])->get($log->item_id);
               $cache->save('item_'.$log->item_id, $item);
           } else {
             $item = $cache->retrieve('item_'.$log->item_id);
           }
-          $content = sprintf( __('%s a %s %s (x%s)'), $log->user, __($log->operation), $item->name, $log->count );
-        }
-      break;
-      case 'treasury':
-        if(!$cache->hasCache('item_'.$log->item_id)) {
-            $item = $api->items()->lang($config['language'])->get($log->item_id);
-            $cache->save('item_'.$log->item_id, $item);
-        } else {
-          $item = $cache->retrieve('item_'.$log->item_id);
-        }
-        $content = sprintf( __('%s deposited %s (x%s).'), $log->user, __($log->operation), $item->name, $log->count );
-      break;
-      case 'upgrade':
-      // action = queued | cancelled | completed | sped_up
-        if(!$cache->hasCache('upgrade_'.$log->upgrade_id)) {
-            $upgrade = $api->guild()->upgrades()->lang($config['language'])->get($log->upgrade_id);
-            $cache->save('upgrade_'.$log->upgrade_id, $upgrade);
-        } else {
-          $item = $cache->retrieve('upgrade_'.$log->upgrade_id);
-        }
-        $content = sprintf( __('%s queued %s.'), $log->user, $upgrade->name );
-      break;
-    }
+          $content = sprintf( __('%s deposited %s (×%s).'), $log->user, __($log->operation), $item->name, $log->count );
+        break;
+        case 'upgrade':
+          if(!$cache->hasCache('upgrade_'.$log->upgrade_id)) {
+              $upgrade = $api->guild()->upgrades()->lang($config['language'])->get($log->upgrade_id);
+              $cache->save('upgrade_'.$log->upgrade_id, $upgrade);
+          } else {
+            $upgrade = $cache->retrieve('upgrade_'.$log->upgrade_id);
+          }
+          $content = sprintf( __('%s queued %s.'), $log->user, $upgrade->name );
+        break;
+      }
 
-    $logs[] = array(
-      'id' => $log->id,
-      'type' => $log->type,
-      'content' => $content,
-      'date' => $log->time
-    );
+      if($content) {
+        $logs[] = array(
+          'id' => $log->id,
+          'type' => $log->type,
+          'content' => $content,
+          'date' => $log->time
+        );
+        $i++;
+      }
+
+    }
 
   endforeach;
 } else {

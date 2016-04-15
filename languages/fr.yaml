@@ -69,8 +69,9 @@ Find us on...: Retrouvez nous sur...
 %s has invited %s to the guild.: %s a invité %s à rejoindre la guilde.
 %s has joined the guild.: %s a rejoint la guilde.
 %s has kicked %s from the guild.: %s a exclu %s de la guilde.
-%s has changed the role of %s to %s: %s a décidé que %s serait désormais %s.
-%s deposited %s (x%s).: %s a entreposé %s (x%s).
+%s has changed the role of %s to %s.: %s a décidé que %s serait désormais %s.
+%s deposited %s (×%s).: %s a entreposé %s (×%s).
+%s has withdrawn %s (×%s).: %s a retiré %s (×%s).
 %s queued %s.: %s a planifié %s.
 %s has promoted %s.: %s a été promu chef de la guilde.
 Voice chat: Chat vocal
@@ -81,3 +82,5 @@ Feed URL: Adresse du flux
 Limit to: Limiter à
 the items' number to display.: le nombre d'éléments à afficher.
 Maximum items' number to display.: Nombre mamximum d'éléments à afficher.
+Choose your guild: Choisissez votre guilde
+Choose this one: Choisir celle-ci

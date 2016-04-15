@@ -65,7 +65,7 @@
       <section id="timeline">
         <div class="container">
           {% for log in guild.log %}
-          <div class="timeline-block {{ type }}" id="hid-{{ log.id }}">
+          <div class="timeline-block {{ log.type }}" id="hid-{{ log.id }}">
             <div class="timeline-icon"></div>
             <div class="timeline-content">
               <p>{{ log.content|nl2br }}</p>
@@ -85,7 +85,7 @@
               <div class="member">
                 <div class="member-icon"><img src="{{ member.rank.icon }}" /></div>
                 <div class="member-name">{{ member.name }} - {{ member.rank.name }}</div>
-                {% if member.joined %}<div class="member-joined">{{ member.joined }}</div>{% endif %}
+                {% if member.joined %}<div class="member-joined">{{ member.joined|date('d/m/Y') }}</div>{% endif %}
               </div>
             {% endfor %}
           </div>

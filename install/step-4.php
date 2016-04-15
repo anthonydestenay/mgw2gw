@@ -2,64 +2,62 @@
 
   if($_POST) {
 
-    if( isset($_POST['config']['guild']['name']) && !empty($_POST['config']['guild']['name']) ) {
-      $guild_name = htmlentities(trim($_POST['config']['guild']['name']));
-    } else {
-      header('Location: ?step=3');
-      exit;
+    if( isset($_POST['config']['guild']['id']) && !empty($_POST['config']['guild']['id']) ) {
+
+      try {
+
+        $api = new \GW2Treasures\GW2Api\GW2Api();
+        $log = $api->guild()->log($config['api']['key'], $_POST['config']['guild']['id'])->get();
+
+        $config_file = __DIR__.'/../config.yaml';
+
+        $data = array_merge($config, $_POST['config']);
+        $yaml = Spyc::YAMLDump($data);
+        $yaml = file_put_contents($config_file, $yaml);
+        header('Location: install.php?step=4');
+        exit;
+
+      } catch(Exception $e) {
+        header('Location: install.php?step=3&error=not-the-leader');
+        exit;
+      }
+
     }
 
-    $service = new PhpGw2Api\Service(__DIR__ . '/cache', 3600);
-    $service = $service->returnAssoc(true);
-    $guild = $service->getGuildDetails(array('guild_name' => $guild_name));
-
-    $foregrounds = @file_get_contents('https://api.guildwars2.com/v2/emblem/foregrounds?ids='.$guild['emblem']['foreground_id']);
-    $foregrounds = json_decode($foregrounds);
-    $foreground = $foregrounds[0]->layers[0];
-    $backgrounds = @file_get_contents('https://api.guildwars2.com/v2/emblem/backgrounds?ids='.$guild['emblem']['background_id']);
-    $backgrounds = json_decode($backgrounds);
-    $background = $backgrounds[0]->layers[0];
-
-    $colors = $service->getColors(array('lang' => 'fr'));
+  } else {
 
     ?>
 
     <?php get_header(); ?>
 
-    <div class="pure-g">
-      <div class="pure-u-1-5">
-        <div class="guild-emblem" style="background-image: url('<?php echo $background; ?>');">
-          <img src="<?php echo $foreground; ?>" />
+    <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>?step=5" method="POST" class="pure-form pure-form-aligned">
+      <fieldset>
+        <legend><?php _e('Login credentials'); ?></legend>
+        <div class="pure-control-group">
+          <p class="help-text help-block mbxl"><i class="fa fa-info-circle"></i> <?php _e('You use them to access the administration of your site.'); ?></p>
         </div>
-      </div>
-      <div class="pure-u-4-5">
-        <div class="guild-name"><?php echo $guild['guild_name']; ?></div>
-      </div>
-    </div>
-
-    <div class="pure-g mtxl">
-      <div class="pure-u-1-2">
-        <p class="m0"><a href="?step=3" class="pure-button pure-button-warning">&laquo;&nbsp;<?php _e('Go back! It\'s not my guild...'); ?></a></p>
-      </div>
-      <div class="pure-u-1-2 tar">
-        <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>?step=5" method="POST">
-          <input type="hidden" name="config[guild][id]" value="<?php echo $guild['guild_id']; ?>" />
-          <input type="hidden" name="config[guild][name]" value="<?php echo $guild['guild_name']; ?>" />
-          <input type="hidden" name="config[guild][tag]" value="<?php echo $guild['tag']; ?>" />
-          <input type="hidden" name="config[guild][emblem][foreground]" value="<?php echo $foreground; ?>" />
-          <input type="hidden" name="config[guild][emblem][background]" value="<?php echo $background; ?>" />
-          <button type="submit" class="pure-button pure-button-primary"><?php _e('This is my guild! Next step'); ?>&nbsp;&raquo;</button>
-        </form>
-      </div>
-    </div>
+        <div class="pure-control-group">
+          <label for="admin_username"><?php _e('Username'); ?></label>
+          <input type="text" name="config[admin][username]" id="admin_username" class="pure-input-1-2" required />
+        </div>
+        <div class="pure-control-group">
+          <label for="admin_password"><?php _e('Password'); ?></label>
+          <input type="password" name="config[admin][password]" id="admin_password" class="pure-input-1-2" required />
+        </div>
+        <div class="pure-control-group">
+          <label for="admin_password_repeat"><?php _e('Password repeat'); ?></label>
+          <input type="password" name="config[admin][password_repeat]" id="admin_password_repeat" class="pure-input-1-2" required />
+        </div>
+        <div class="pure-controls">
+          <button type="submit" class="pure-button pure-button-primary"><?php _e('Next step'); ?>&nbsp;&raquo;</button>
+        </div>
+      </fieldset>
+    </form>
 
     <?php get_footer(); ?>
 
     <?php
 
-  } else {
-    header('Location: ?step=3&error=no-guild-name');
-    exit;
   }
 
- ?>
+?>
