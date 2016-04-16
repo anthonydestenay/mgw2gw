@@ -263,7 +263,7 @@ if( isset($config['feed']['url']) && !empty($config['feed']['url']) ) {
 }
 
 $data = array(
-  'theme' => ( isset($config['theme']) && !empty($config['theme']) ) ? '/themes/'.$config['theme'] : '/themes/default',
+  'theme' => ( isset($config['theme']) && !empty($config['theme']) ) ? 'themes/'.$config['theme'] : 'themes/default',
   'is_admin' => $is_admin,
   'guild' => array(
     'name' => $config['guild']['name'],
